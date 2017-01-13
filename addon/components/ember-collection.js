@@ -46,9 +46,7 @@ export default Ember.Component.extend({
     //   2. Set a property on `this` that is both not in the
     //      initial attrs hash and not on the prototype.
     this._super();
-  },
 
-  didInitAttrs() {
     let buffer = this.getAttr('buffer'); // getIntAttr('buffer', 5)
     this._buffer = (typeof buffer === 'number') ? buffer : 5;
     this._scrollLeft = this.getAttr('scroll-left') | 0;
@@ -65,6 +63,10 @@ export default Ember.Component.extend({
       needsRevalidate(this);
     }
   },
+
+  updateView: function() {
+    needsRevalidate(this);
+  }.observes('viewUpdated'),
 
   didReceiveAttrs() {
     // Work around emberjs/ember.js#11992. Affects <=1.13.8 and <=2.0.0.
